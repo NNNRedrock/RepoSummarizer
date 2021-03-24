@@ -84,3 +84,34 @@ class LsaSummarizer(BaseSummarizer):
                     matrix[row, col] += 1
 
         return matrix
+
+    def _compute_term_frequency(self, matrix, smooth=0.4):
+
+        assert 0.0 <= smooth < 1.0
+
+        max_word_frequencies = numpy.max(matrix, axis=0)
+        rows, cols = matrix.shape
+        for row in range(rows):
+            for col in range(cols):
+                max_word_frequency = max_word_frequencies[col]
+                if max_word_frequency != 0:
+                    frequency = matrix[row, col]/max_word_frequency
+                    matrix[row, col] = smooth + (1.0 - smooth)*frequency
+
+        return matrix
+
+    def _compute_ranks(self, sigma, v_matrix):
+        assert len(sigma) == v_matrix.shape[0]
+
+        dimensions = max(LsaSummarizer.MIN_DIMENSIONS,
+            int(len(sigma)*LsaSummarizer.REDUCTION_RATIO))
+        powered_sigma = tuple(s**2 if i < dimensions else 0.0
+            for i, s in enumerate(sigma))
+
+        ranks = []
+        
+        for column_vector in v_matrix.T:
+            rank = sum(s*v**2 for s, v in zip(powered_sigma, column_vector))
+            ranks.append(math.sqrt(rank))
+
+        return ranks
