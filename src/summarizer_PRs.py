@@ -19,10 +19,10 @@ for reponame in reponames:
 
 lxr = LexRank(documents, stopwords=STOPWORDS['en'])
 
-for j in range(0,5):
-    for i in range(0,300):
+for j in range(0, 5):
+    for i in range(0, 300):
         sentences.append(df3.iloc[i+300*j]['Pull Requests'])
 
-    summary = lxr.get_summary(sentences, summary_size= 50, threshold=.3)
+    summary = lxr.get_summary(sentences, summary_size=50, threshold=.3)
     sentences = []
     print(summary)
