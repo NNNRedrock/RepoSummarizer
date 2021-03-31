@@ -1,7 +1,28 @@
 import pandas as pd
 import github
+import numpy as np
 from github import Github
 from summarization import run_summarization
+
+## Write Beautiful soup function here and call it in get_issues_expertise_level function
+
+def get_issues_expertise_level(g, username):
+    user = g.get_user(username)
+    stars = user.get_starred().totalCount
+    followers = user.followers
+    w1 = 0.3
+    w2 = 0.6
+    w3 = 0.9
+
+    base_expertise = w1*followers + w2*stars
+    expertise_level = 1/(1+np.exp(-base_expertise))
+
+    if(expertise_level < 0.3):
+        print("Expertise level: Easy")
+    elif(expertise_level > 0.3 and expertise_level < 0.6):
+        print("Expertise level: Medium")
+    elif(expertise_level > 0.6):
+        print("Expertise level: Hard")
 
 
 def run_tool(access_token, repo_name):
@@ -14,7 +35,7 @@ def run_tool(access_token, repo_name):
         print("Invalid Repo Name")
         return
 
-    print("Fetching Commits, Prs and Issues")
+    print("\nFetching Commits, Prs and Issues")
     commits = repo.get_commits()
     openIssues = repo.get_issues(state = 'open')
     closedIssues = repo.get_issues(state='closed')
@@ -65,14 +86,17 @@ def run_tool(access_token, repo_name):
     d = {'Repo Name': repoNameFiltered, 'Commits': commitsFiltered, 'Open Issues': openIssuesFiltered, 'Closed Issues': closedIssuesFiltered, 'Pull Requests': prsFiltered}
     df = pd.DataFrame(data= d)
 
-    print("Started the Summarization Process")
+    print("\nStarted the Summarization Process")
 
     run_summarization(df, 'Commits')
     run_summarization(df, 'Pull Requests')
 
     print("Successfully completed Summarization")
 
-print("\nWelcome to Github Repo Summarizer")
+
+print("\n+-----------------------------------+")
+print("| Welcome to Github Repo Summarizer |")
+print("+-----------------------------------+\n")
 
 # access_token = input("Generate and Enter Github access token\n")
 
