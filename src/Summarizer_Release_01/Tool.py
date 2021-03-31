@@ -1,20 +1,33 @@
 import pandas as pd
 import github
 import numpy as np
+import requests as r
+from bs4 import BeautifulSoup as bs
 from github import Github
 from summarization import run_summarization
 
 ## Write Beautiful soup function here and call it in get_issues_expertise_level function
+def contributions(username):
+    s = r.get('https://github.com/'+username+'/')
+    content_user = bs(s.content,'html.parser')
+    containers = content_user.findAll("h2", { "class":"f4 text-normal mb-2"})
+    if len(containers):
+        res1 = str(containers[0]).split('>')[1].lstrip()
+    #res2 = res1[1].lstrip()
+        final_res = res1.split()[0]
+    return final_res
+
 
 def get_issues_expertise_level(g, username):
     user = g.get_user(username)
     stars = user.get_starred().totalCount
     followers = user.followers
+    contribute = int(contributions(username))
     w1 = 0.3
     w2 = 0.6
     w3 = 0.9
 
-    base_expertise = w1*followers + w2*stars
+    base_expertise = w1*followers + w2*stars+w3*contribute
     expertise_level = 1/(1+np.exp(-base_expertise))
 
     if(expertise_level < 0.3):
