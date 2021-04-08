@@ -11,6 +11,7 @@ def contributions(username):
     s = r.get('https://github.com/'+username+'/')
     content_user = bs(s.content,'html.parser')
     containers = content_user.findAll("h2", { "class":"f4 text-normal mb-2"})
+    final_res = '0'
     if len(containers):
         res1 = str(containers[0]).split('>')[1].lstrip()
     #res2 = res1[1].lstrip()
@@ -22,21 +23,15 @@ def get_issues_expertise_level(g, username):
     user = g.get_user(username)
     stars = user.get_starred().totalCount
     followers = user.followers
-    contribute = int(contributions(username))
-    w1 = 0.3
-    w2 = 0.6
-    w3 = 0.9
+    contribute = int("".join(contributions(username).split(',')))
 
-    base_expertise = w1*followers + w2*stars+w3*contribute
-    expertise_level = 1/(1+np.exp(-base_expertise))
+    base_expertise = (stars + followers + contribute) / 3
+    # Normalizing base_expertise based in observed data (1500 observed as max score)
+    base_expertise = base_expertise/max(1500, base_expertise)
+    
+    expertise_level = 4/(1+np.exp(-base_expertise)) - 2
 
-    if(expertise_level < 0.3):
-        print("Expertise level: Easy")
-    elif(expertise_level > 0.3 and expertise_level < 0.6):
-        print("Expertise level: Medium")
-    elif(expertise_level > 0.6):
-        print("Expertise level: Hard")
-
+    return expertise_level
 
 def run_tool(access_token, repo_name):
 
@@ -84,7 +79,7 @@ def run_tool(access_token, repo_name):
             openIssuesFiltered.append("Nan")
 
         if j < closedIssuescnt:
-            closedIssuesFiltered.append(closedIssues[j].closed_by)
+            closedIssuesFiltered.append(str(closedIssues[j].closed_by))
         else:
             closedIssuesFiltered.append("Nan")
 
@@ -104,15 +99,18 @@ def run_tool(access_token, repo_name):
     run_summarization(df, 'Commits')
     run_summarization(df, 'Pull Requests')
 
+    generate_exp_level(g, closedIssuesFiltered)
     print("Successfully completed Summarization")
 
 
-print("\n+-----------------------------------+")
-print("| Welcome to Github Repo Summarizer |")
-print("+-----------------------------------+\n")
+if __name__ == "__main__":
 
-# access_token = input("Generate and Enter Github access token\n")
+    print("\n+-----------------------------------+")
+    print("| Welcome to Github Repo Summarizer |")
+    print("+-----------------------------------+\n")
 
-repo_name = input("Enter the Name of Repo To Summarize\n")
+    # access_token = input("Generate and Enter Github access token\n")
 
-run_tool('e0b63cbec1fbb382c3bf4c03e0a9f3e851640ac5', repo_name)
+    repo_name = input("Enter the Name of Repo To Summarize\n")
+
+    run_tool('e0b63cbec1fbb382c3bf4c03e0a9f3e851640ac5', repo_name)
