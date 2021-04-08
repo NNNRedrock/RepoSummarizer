@@ -18,7 +18,7 @@ def contributions(username):
         final_res = res1.split()[0]
     return final_res
 
-
+#Calculating issues ex[ertise level
 def get_issues_expertise_level(g, username):
     user = g.get_user(username)
     stars = user.get_starred().totalCount
@@ -33,6 +33,8 @@ def get_issues_expertise_level(g, username):
 
     return expertise_level
 
+
+#Generating issus expertise level
 def generate_exp_level(g, closedByUserNames):
 
     dict = {'Easy': 0, 'Medium': 0, 'Hard': 0}
