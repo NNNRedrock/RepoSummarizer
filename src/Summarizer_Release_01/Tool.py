@@ -28,10 +28,40 @@ def get_issues_expertise_level(g, username):
     base_expertise = (stars + followers + contribute) / 3
     # Normalizing base_expertise based in observed data (1500 observed as max score)
     base_expertise = base_expertise/max(1500, base_expertise)
-    
+
     expertise_level = 4/(1+np.exp(-base_expertise)) - 2
 
     return expertise_level
+
+def generate_exp_level(g, closedByUserNames):
+
+    dict = {'Easy': 0, 'Medium': 0, 'Hard': 0}
+
+    for username in closedByUserNames:
+        if len(username) < 17:
+            continue
+        trimmed_username = username[17:-2]
+        exp_level = get_issues_expertise_level(g, trimmed_username)
+
+        if exp_level >= 0 and exp_level <= 0.3:
+            dict['Easy'] += 1
+        elif exp_level > 0.3 and exp_level <= 0.6:
+            dict['Medium'] += 1
+        elif exp_level > 0.6 and exp_level <= 1:
+            dict['Hard'] += 1
+
+    print("Easy : ", dict['Easy'])
+    print("Medium : ", dict['Medium'])
+    print("Hard : ", dict['Hard'])
+
+    print("Percentages: ")
+    percent_easy = 100 * dict['Easy'] / (dict['Easy'] + dict['Medium'] + dict['Hard'])
+    percent_medium = 100 * dict['Medium'] / (dict['Easy'] + dict['Medium'] + dict['Hard'])
+    percent_hard = 100 * dict['Hard'] / (dict['Easy'] + dict['Medium'] + dict['Hard'])
+
+    print("Easy : ", percent_easy)
+    print("Medium : ", percent_medium)
+    print("Hard : ", percent_hard)
 
 def run_tool(access_token, repo_name):
 
