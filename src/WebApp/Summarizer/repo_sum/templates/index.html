@@ -14,31 +14,190 @@
   <meta name="keywords" content="">
   <meta name="description" content="">
   <meta name="author" content="">
+  <!-- bootstrap css -->
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <!-- style css -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <!-- Responsive-->
+  <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+  <!-- Scrollbar Custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}">
+  <!-- Tweaks for older IEs-->
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <style>
+         a.dropdown-item {
+            background: rgb(0,0,0,0.9);
+        }
+    </style>
+
 </head>
 <!-- body -->
 
-<body class="main-layout">
+<body style="background-color:#ececf0;"  class="main-layout">
   <!-- loader  -->
-  <form class="Vegetable" method="POST" action = "{% url 'summary_output' %}">
-    {% csrf_token %}
-    <input class="Vegetable_fom" placeholder="Vegetable" type="text" name="reponame">
-  
-  
-    <button class="Search_btn" type="submit" >Search</button>
-  
-  </form>
-  {% if Pull_Requests %}
-  <p>{{Pull_Requests}}</p>
-  {%endif%}
-  {% if Commits  %}
-  <p>{{Commits}}</p>
-  {%endif%}
-  {% if Issues_normal %}
-  <p>{{Issues_normal}}</p>
-  {%endif%}
-  {% if Issues_percent  %}
-  <p>{{Issues_percent}}</p>
-  {%endif%}
+  <div class="loader_bg">
+    <div class="loader"><img src="{% static 'images/loading.gif' %}" alt="#" /></div>
+  </div>
+  <!-- end loader -->
+
+  <!-- header -->
+  <header>
+    <!-- header inner -->
+    <div class="header-top">
+
+     <section class="slider_section">
+
+            <div class="container-fluid padding_dd">
+              <div class="carousel-caption">
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <div class="text-bg">
+                      <h1 style="color: rgb(0,0,51,0.8) "> Repo Summarizer</h1>
+                        <p> Want to have a quick overview of any GitHub Repo!!! <br>
+                            Try out Repo Summarizer by entering the repo name below. </p>
+
+                        <form class="Vegetable" method="POST" action = "{% url 'summary_output' %}">
+                            {% csrf_token %}
+                            <div>
+                            <div class="btn-group">
+                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Test Repos
+                            </button>
+                            <div class="dropdown-menu">
+                                <a style="color: #ffffff" onMouseOver="this.style.background='rgb(0,0,51,0.8)'" onMouseOut="this.style.background='rgb(0,0,0,0.9)'" class="dropdown-item" onclick={onClickDropdown(0)}>Test Repo 1</a>
+                                <a style="color: #ffffff" onMouseOver="this.style.background='rgb(0,0,51,0.8)'" onMouseOut="this.style.background='rgb(0,0,0,0.9)'" class="dropdown-item" onclick={onClickDropdown(1)}>Test Repo 2</a>
+                                <a style="color: #ffffff" onMouseOver="this.style.background='rgb(0,0,51,0.8)'" onMouseOut="this.style.background='rgb(0,0,0,0.9)'" class="dropdown-item" onclick={onClickDropdown(2)}>Test Repo 3</a>
+                                <a style="color: #ffffff" onMouseOver="this.style.background='rgb(0,0,51,0.8)'" onMouseOut="this.style.background='rgb(0,0,0,0.9)'" class="dropdown-item" onclick={onClickDropdown(3)}>Test Repo 4</a>
+                                <a style="color: #ffffff" onMouseOver="this.style.background='rgb(0,0,51,0.8)'" onMouseOut="this.style.background='rgb(0,0,0,0.9)'" class="dropdown-item" onclick={onClickDropdown(4)}>Test Repo 5</a>
+                            </div>
+                            </div>
+                            </div>
+
+                            <input class="Vegetable_fom" placeholder="Repo Name" type="text" name="reponame" id="SearchRepoBox">
+                            <button onMouseOver="this.style.background='rgb(0,0,51,0.8)'" onMouseOut="this.style.background='#000000'"  class="Search_btn" type="submit" >Summarize</button>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <div class="images_box">
+                      <figure><img style="width:60%; height:50%" src="{% static 'images/github.png' %}"></figure>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+     </section>
+    </div>
+</header>
+
+<!-- Main Content  -->
+
+{% if Pull_Requests %}
+<div style="padding-top: 1px; background-color: #ffffff;">
+  <div id="about" class="about">
+  <div class="container-fluid">
+    <div class="row">
+      <div style="border-right:2px solid rgb(0,0,51,0.8) ;" class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+        <div class="about-box">
+          <h2 style="background-color: rgb(0,0,51,0.8) ;font-size: 20px">Commits Summarization</h2>
+            {% if Commits  %}
+            <p style="font-family: monospace; font-size: 20px; font-weight: 600">{{Commits}}</p>
+            {%endif%}
+        </div>
+      </div>
+      <div style="border-left:2px solid rgb(0,0,51,0.8) ;" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 ">
+        <div class="about-box_img">
+          <div class="about-box">
+            <h2 style="background-color: rgb(0,0,51,0.8) ;font-size: 20px">Pull Requests Summarization</h2>
+              {% if Pull_Requests %}
+              <p style="font-family: monospace; font-size: 20px; font-weight: 600" >{{Pull_Requests}}</p>
+              {%endif%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-bottom: 5%" id="about2" class="about">
+  <div class="container-fluid">
+    <div class="row">
+      <div style="border-right:2px solid rgb(0,0,51,0.8) ;" class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+        <div class="about-box">
+          <h2 style=" background-color: rgb(0,0,51,0.8) ;font-size: 20px">Issues Expertise Level</h2>
+            {% if Issues_normal %}
+            <p style="font-family: monospace; font-size: 20px; font-weight: 600">
+                Beginner: {{Issues_percent.0}} %<br>
+                Intermediate: {{Issues_percent.1}} % <br>
+                Expert: {{Issues_percent.2}} %
+            </p>
+            {%endif%}
+        </div>
+      </div>
+      <div style="border-left:2px solid rgb(0,0,51,0.8) ;" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 ">
+        <div class="about-box_img">
+          <div class="about-box">
+          <h2 style="background-color: rgb(0,0,51,0.8) ;font-size: 20px">Issues Expertise Level Pie Chart</h2>
+            <div  id="container" style="width: 75%; margin-top: 8%">
+                <canvas id="pie-chart"></canvas>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+{% endif %}
+<!-- end abouts -->
+
+          <!-- Javascript files-->
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/jquery-3.0.0.min.js' %}"></script>
+  <script src="{% static 'js/plugin.js' %}"></script>
+  <!-- sidebar -->
+  <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+  <script src="{% static 'js/custom.js' %}"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+  <script>
+    var config = {
+      type: 'pie',
+      data: {
+        datasets: [{
+          data: [{{Issues_normal.0| safe}},{{Issues_normal.1|safe}},{{Issues_normal.2|safe}}],
+          backgroundColor: [
+            '#FF6700', '#0000ff', '#fff44f'
+          ],
+          label: 'Population'
+        }],
+        labels: ['Beginner', 'Intermediate', 'Expert']
+      },
+      options: {
+        responsive: true
+      }
+    };
+ 
+    window.onload = function() {
+      var ctx = document.getElementById('pie-chart').getContext('2d');
+      window.myPie = new Chart(ctx, config);
+    };
+  </script>
+
+  <script>
+    function onClickDropdown(index){
+        var arr = ['kamranahmedse/developer-roadmap','supabase/supabase','onnx/onnx','vectorizedio/redpanda','bazelbuild/bazel'];
+        document.getElementById("SearchRepoBox").value = arr[index];
+    }
+  </script>
+
 </body>
 
 </html>

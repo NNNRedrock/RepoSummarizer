@@ -21,7 +21,7 @@
      scroll-behavior: smooth;
 }
  body {
-     color: #666666;
+     color: #000000;
      font-size: 14px;
      font-family: 'Poppins', sans-serif;
      line-height: 1.80857;
@@ -606,7 +606,7 @@
      padding-left: 15px;
      border: 1px solid #e0e7ed;
 }
- .header-search form .search-btn {
+ .header-top form .search-btn {
      position: absolute;
      right: 0;
      top: 0;
@@ -618,8 +618,8 @@
      background-color: #38c8a8;
      cursor: pointer;
 }
- .header-search form .search-btn:hover {
-     background: #111111;
+ .header-top form .search-btn:hover {
+     background: rgb(0,0,51,0.8);
 }
  .cart-box {
      float: right;
@@ -994,6 +994,7 @@ width: 24%;
    
      z-index: 999;
      width: 100%;
+     height: 100%;
      padding: 20px 30px 20px 30px;
      background: #ececf0;
 }
@@ -1150,12 +1151,10 @@ padding: 40px 0;
 .about .about-box::after {
      position: absolute;
      content: "";
-     background: url(../images/crros.png);
      height: 244px;
 width: 187px;
 bottom: 0;
 left: 0;
-background-repeat: no-repeat;
 }
  .about .about-box h2 {
 
