@@ -23,7 +23,7 @@ pipenv shell
 ## How to Run:
 After the setup process goto WebApp directory
 ```console
-cd RepoSummarizer/src/WebApp/Summarizer
+cd src/WebApp/Summarizer
 ```
 Now run the following command
 ```console
