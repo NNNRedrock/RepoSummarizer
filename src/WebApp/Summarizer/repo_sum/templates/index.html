@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- basic -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- mobile metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <!-- site metas -->
+  <title>Summarizer</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <meta name="author" content="">
+</head>
+<!-- body -->
+
+<body class="main-layout">
+  <!-- loader  -->
+  <form class="Vegetable" method="POST" action = "{% url 'summary_output' %}">
+    {% csrf_token %}
+    <input class="Vegetable_fom" placeholder="Vegetable" type="text" name="reponame">
+  
+  
+    <button class="Search_btn" type="submit" >Search</button>
+  
+  </form>
+  {% if Pull_Requests %}
+  <p>{{Pull_Requests}}</p>
+  {%endif%}
+  {% if Commits  %}
+  <p>{{Commits}}</p>
+  {%endif%}
+  {% if Issues_normal %}
+  <p>{{Issues_normal}}</p>
+  {%endif%}
+  {% if Issues_percent  %}
+  <p>{{Issues_percent}}</p>
+  {%endif%}
+</body>
+
+</html>
