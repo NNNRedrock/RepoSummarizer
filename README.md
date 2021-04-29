@@ -30,7 +30,13 @@ Now run the following command
 python manage.py runserver
 ```
 Open the URL shown in the terminal. <br/>
-You can select any test repo or manually enter any repo name and click on Summarize button.
+You can select any test repo or manually enter any repo name and click on Summarize button.<br/>
+Test Repo 1:kamranahmedse/developer-roadmap<br/>
+Test Repo 2:supabase/supabase <br/>
+Test Repo 3:onnx/onnx <br/>
+Test Repo 4:vectorizedio/redpanda <br/>
+Test Repo 5:bazelbuild/bazel <br/>
+
 
 ## Screenshots of sample output:
 ### Home Page:
