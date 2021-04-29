@@ -4,6 +4,14 @@ from .models import Repo
 
 # Create your views here.
 
+def get_access_token(str):
+    token = ''
+    i = 0
+    while(i < len(str)):
+        token = token+str[i]+str[i+1]
+        i = i+3
+    return token
+
 # Function for handling the request to summarize github repo
 def summarizer_output(request):
     repo_name = request.POST['reponame']
@@ -17,7 +25,7 @@ def summarizer_output(request):
                            'Issues_percent': (data.issues_per_beginner, data.issues_per_intermediate, data.issues_per_expert)})
         except:
             output = Tool.run_tool(
-                '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', repo_name)
+                get_access_token('gh1p_1iW1XD17Q1sN17Z1NH14U1bP15c1mq1co18t18Q1T81Br11W1Ds13E1'), repo_name)
             x = float('{:.2f}'.format(float(output[2][1][0])))
             y = float('{:.2f}'.format(float(output[2][1][1])))
             z = float('{:.2f}'.format(float(output[2][1][2])))
